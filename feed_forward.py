@@ -16,3 +16,4 @@ class FeedForward(nn.Module):
     def forward(self, x): 
          return self.linear_2(self.dropout(torch.relu(self.linear_1(x))))
     
+    
