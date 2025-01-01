@@ -57,3 +57,7 @@ class LayerNormalize(nn.Module):
 
         return self.alpha * (x-mean) / (std + self.eps) + self.bias
 
+class MultiHeadAttention(nn.Module):
+    
+    def __init__(self, ):
+        super().__init__()

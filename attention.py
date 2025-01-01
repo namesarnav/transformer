@@ -19,5 +19,15 @@ class MultiHeadAttention(nn.Module):
         self.w_q = nn.Linear(d_model, d_model)
         self.w_k = nn.Linear(d_model, d_model)
         self.w_v = nn.Linear(d_model, d_model)
+    
+    def forward(self, x):
         
-        
+
+
+
+
+
+
+
+
+
