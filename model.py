@@ -39,8 +39,7 @@ class PositionalEncoding(nn.Module):
         self.register_buffer('pe', pe ) 
 
     def forward(self, x):
-        x = x + (self.pe[:, :x.shape[1]], :).requires_grad_(False)
-
+        x = x + (self.pe[:, :x.shape[1]], : ).requires_grad_(False)
 
 class LayerNormalize(nn.Module):
 
@@ -56,8 +55,3 @@ class LayerNormalize(nn.Module):
         std = x.std(dim=-1 , keepDim = True)
 
         return self.alpha * (x-mean) / (std + self.eps) + self.bias
-
-class MultiHeadAttention(nn.Module):
-    
-    def __init__(self, ):
-        super().__init__()
