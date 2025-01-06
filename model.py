@@ -85,10 +85,6 @@ class LayerNormalize(nn.Module):
 
 """
 Encoder Block
-
-Keyword arguments:
-argument -- description
-Return: return_description
 """
 
 class EncoderBlock(nn.Module):
@@ -121,8 +117,6 @@ class Encoder(nn.Module):
 
 
 """Decoder Block
-
-argument -- self attention, cross attention, feed forward, dropout
 """
 
 class DecoderBlock(nn.Module): 
@@ -154,6 +148,9 @@ class Decoder(nn.Module):
         return self.norm(x)
 
 class ProjectionLayer(nn.Module):
+    '''
+    Projection layer for final conversion of the output matrix to the seq len
+    '''
     def __init__(self, d_model: int, vocab_size: int) -> None:
         super().__init__() 
         self.proj = nn.Linear(d_model, vocab_size)
@@ -162,3 +159,43 @@ class ProjectionLayer(nn.Module):
         return torch.log_softmax(self.proj(x), dim = -1 )
     
     
+### Building the transformer
+
+
+def build_transformer(src_vocab_size: int, tgt_vocab_size: int, 
+                      src_seq_len: int, tgt_seq_len: int, d_model: int, 
+                      N: int=6, h: int=8, dropout: float=0.1, d_ff: int=2048):
+    '''
+    Build the final transformer
+    '''
+    
+    # ----- Embedding Layer ---- #
+
+    # Inp
+    src_embed = InputEmbedding(d_model, src_vocab_size)
+    tgt_embed = InputEmbedding(d_model, tgt_vocab_size)
+
+    #Pos
+    src_pos = PositionalEncoding(d_model, src_seq_len, dropout)
+    tgt_pos = PositionalEncoding(d_model, tgt_seq_len, dropout)
+
+    encoder_blocks = []
+    for _ in range(N): 
+        encoder_self_attention_block = MultiHeadAttentionBlock(d_model, h, dropout)
+        feed_forward_block = FeedForward(d_model, d_ff, dropout)
+
+        encoder_block  = EncoderBlock(encoder_self_attention_block, feed_forward_block, dropout)
+        encoder_block.append(encoder_block)
+
+    
+    decoder_blocks = []
+    for _ in range(N):
+        decoder_self_attention_block = MultiHeadAttentionBlock(d_model, h, dropout)
+        decoder_cross_attention_block = MultiHeadAttentionBlock(d_model, h, dropout)
+        feed_forward_block = FeedForward(d_model, d_ff, dropout)
+
+        decoder_block = DecoderBlock(decoder_self_attention_block, decoder_cross_attention_block,
+                                      feed_forward_block, dropout)
+
+        decoder_blocks.append(decoder_block)
+

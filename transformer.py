@@ -7,7 +7,8 @@ import torch.nn as nn
 class Transformer(nn.Module): 
 
     def __init__(self, encoder: Encoder, decoder: Decoder, src_embed: InputEmbedding,
-                  tgt_embed: InputEmbedding, src_pos: PositionalEncoding, tgt_pos: PositionalEncoding, proj_layer: ProjectionLayer):
+                  tgt_embed: InputEmbedding, src_pos: PositionalEncoding, 
+                  tgt_pos: PositionalEncoding, proj_layer: ProjectionLayer):
         
         super().__init__()
         self.encoder = encoder
@@ -29,4 +30,7 @@ class Transformer(nn.Module):
         tgt = self.tgt_pos(tgt)
         return self.decode(tgt, encoder_output, src_mask, tgt_mask)
     
+    def project(self, x):
+        return self.proj_layer(x)
     
+
