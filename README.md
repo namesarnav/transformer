@@ -86,7 +86,7 @@ generated = model.generate(
 
 The core self-attention mechanism computes attention scores using queries (Q), keys (K), and values (V):
 
-$$Attention(Q, K, V) = softmax(\frac{QK^T}{\sqrt{d_k}})V$$
+Attention(Q, K, V) = (softmax(QK^T)/sqrt(d_k))*V
 
 where:
 - Q ∈ ℝ^(seq_len × d_k): Query matrix
