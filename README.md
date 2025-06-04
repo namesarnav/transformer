@@ -15,8 +15,8 @@ A PyTorch implementation of the Transformer architecture as described in ["Atten
 ## Installation
 
 ```bash
-git clone https://github.com/yourusername/transformer-implementation.git
-cd transformer-implementation
+git clone https://github.com/yourusername/transformer.git
+cd transformer
 pip install -r requirements.txt
 ```
 
